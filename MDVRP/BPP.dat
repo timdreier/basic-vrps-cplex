@@ -1,0 +1,22 @@
+/*********************************************
+ * OPL 12.10.0.0 Data
+ * Author: tim
+ * Creation Date: 23.10.2020 at 12:00:13
+ *********************************************/
+
+ prepare {
+  	var f = new IloOplInputFile("customers.csv");
+  	var i = 1;
+  	f.readline();
+  	while (!f.eof && i <= N){
+    	var str=f.readline();
+     	var ar=str.split(";");
+     	if (ar.length==4) {
+     		V.add(i);
+      		d[i] = ar[3];
+      	}
+      	i++;
+   	}
+   	f.close();
+   	writeln((i-1) + " customers loaded!");
+ }

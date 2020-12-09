@@ -1,0 +1,23 @@
+/*********************************************
+ * OPL 12.10.0.0 Data
+ * Author: tim
+ * Creation Date: 23.10.2020 at 12:00:13
+ *********************************************/
+
+ prepare {
+  	//Koordinaten aus der csv Datei laden
+  	var f = new IloOplInputFile("nodes.csv");
+  	var i = 0;
+  	f.readline();
+  	while (!f.eof && i < n){
+    	var str=f.readline();
+     	var ar=str.split(";");
+     	if (ar.length==4) {
+     		V.add(i);
+      		d[i] = ar[3];
+      	}
+      	i++;
+   	}
+   	f.close();
+   	writeln(i + " nodes loaded (thereof 1 depot)!");
+ }

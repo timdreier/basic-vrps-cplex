@@ -1,0 +1,84 @@
+/*********************************************
+ * OPL 12.10.0.0 Data
+ * Author: tim
+ * Creation Date: 17.10.2020 at 17:56:14
+ *********************************************/
+
+prepare {
+  	var f=new IloOplInputFile("nodes.csv");
+  	var i = 0;
+  	f.readline();
+  	while (!f.eof && i < n){
+    	var str=f.readline();
+     	var ar=str.split(";");
+     	if (ar.length==4) {
+      		coordinates[i][0] = ar[1];
+      		coordinates[i][1] = ar[2];
+      		d[i] = ar[3];
+      	}
+      	i++;
+   	}
+   	f.close();
+   	
+   	function distanzBerechnen(lat1,lon1, lat2, lon2) {
+		var R = 6371000;
+		var sigma1 = lat1 * Math.PI/180;
+		var sigma2 = lat2 * Math.PI/180;
+		var deltaSigma = (lat2 - lat1) * Math.PI/180;
+		var deltaLambda = (lon2 - lon1) * Math.PI/180;
+		
+		var a = Math.sin(deltaSigma / 2) * Math.sin(deltaSigma / 2) +
+				Math.cos(sigma1) * Math.cos(sigma2) *
+				Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2)
+				
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		if(c == 0) {
+			return 6371000000;
+		}
+		else {
+			return R * c;
+		}
+	}
+   
+   	for (var i in coordinates) {
+   		for(var j in coordinates) {
+   			c[i][j] = parseInt(distanzBerechnen(coordinates[i][0],coordinates[i][1],coordinates[j][0],coordinates[j][1]));
+   		}
+   	}
+   	
+   	for(var i = 0; i < n; i++ ) {
+   		V.add(i)
+   	}
+   	   	
+   	function generateRecursive(tour, nodes) {
+	   	if(tour.size >= 2) {
+	   		Subtours.add(tour.size, tour)
+	   	}
+	   	for (var n in nodes) {
+	   		if (!tour.contains(n)) {
+	   			var newTour = Opl.operatorUNION(tour,tour);
+	   			newTour.add(n);
+	   			generateRecursive(newTour, nodes);
+	   			}
+	   		}
+   	}
+   	   	
+   	function generateSubtours( nodes ) {
+   		writeln("--------------------------------------------");
+  	  	writeln("Generate subtours!");
+  	  	writeln("--------------------------------------------");
+  	  	write("0%...");
+   		for (var n in nodes) {
+   			var subtour = Opl.operatorUNION(emptySet,emptySet);
+   			subtour.add(n);
+   			generateRecursive(subtour, nodes);
+   			write(parseInt(n / nodes.size * 100) + "%...");
+   		}
+   	}
+   	
+   	V.remove(0);
+   	generateSubtours(V);
+   	V.add(0);
+
+   	writeln("\n" + Subtours.size + " subtours generated!\n");
+}
