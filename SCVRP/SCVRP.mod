@@ -6,7 +6,7 @@
  
  int			n = ...;					//Count of nodes (including depot)
  {int}			V;							//Set of nodes (including depot)
- float			d[0..n];					//Demand of each customer
+ float			d[0..(n-1)];					//Demand of each customer
  {int} 			K		= ...;				//Set of vehicles
  float 			C 		= ...;				//Capacity of each vehicle
  {int}			emptySet;					//Helper to create empty sets in ILOG Script
@@ -15,8 +15,8 @@
    	{int}		customers;
   };
  {S}			Subtours;					//Set which includes all subtours with to or more customers
- float 			coordinates [0..n][0..n];	//coordinates of every node
- int			c[0..n][0..n];				//Distance between every pair of nodes
+ float 			coordinates [0..(n-1)][0..(n-1)];	//coordinates of every node
+ int			c[0..(n-1)][0..(n-1)];				//Distance between every pair of nodes
  dvar boolean	x[V][V][K];					//decision variable
  
  minimize sum(i in V) sum(j in V) sum(k in K) c[i][j] * x[i][j][k];

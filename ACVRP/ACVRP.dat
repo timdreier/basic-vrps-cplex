@@ -20,7 +20,7 @@ prepare {
    	}
    	f.close();
    	
-   	function calculateDistance(lat1,lon1, lat2, lon2) {
+   	function distanzBerechnen(lat1,lon1, lat2, lon2) {
 		var R = 6371000;
 		var sigma1 = lat1 * Math.PI/180;
 		var sigma2 = lat2 * Math.PI/180;
@@ -37,9 +37,16 @@ prepare {
    
    	for (var i in coordinates) {
    		for(var j in coordinates) {
-   			c[i][j] = parseInt(calculateDistance(coordinates[i][0],coordinates[i][1],coordinates[j][0],coordinates[j][1]));
+   			if(i != j) {
+   				c[i][j] = parseInt(distanzBerechnen(coordinates[i][0],coordinates[i][1],coordinates[j][0],coordinates[j][1]));
+   			}
+   			else{
+   				c[i][j] = 1000000
+   			}
    		}
    	}
+   	
+   	writeln(c);
    	
    	for(var i = 0; i < n; i++ ) {
    		V.add(i)

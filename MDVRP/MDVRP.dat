@@ -46,17 +46,18 @@
 				Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2)
 				
 		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		if(c == 0) {
-			return 6371000000;
-		}
-		else {
-			return R * c;
-		}
+		
+		return R * c;
 	}
    
    	for (var i in coordinates) {
    		for(var j in coordinates) {
-   			c[i][j] = parseInt(distanzBerechnen(coordinates[i][0],coordinates[i][1],coordinates[j][0],coordinates[j][1]));
+   			if(i != j) {
+   				c[i][j] = parseInt(distanzBerechnen(coordinates[i][0],coordinates[i][1],coordinates[j][0],coordinates[j][1]));
+   			}
+   			else{
+   				c[i][j] = 1000000
+   			}
    		}
    	}
    	

@@ -8,7 +8,7 @@
  int 			n = ...;		//Number of nodes (including depot)
  {int}			V;				//Set of nodes (including depot)
  float			C		= ...;	//Capacity of each vehicle
- float			d[0..n];		//demand of each node
+ float			d[0..(n-1)];		//demand of each node
  dvar boolean	Y[V];			//Decision variable, 1 if vehicle i is ised
  dvar boolean	X[V][V];		//Decision variable, 1 if node i is served by vehicle j
  
